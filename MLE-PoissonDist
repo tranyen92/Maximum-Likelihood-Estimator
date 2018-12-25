@@ -1,0 +1,25 @@
+#sample data
+num_particals <- c(4, 1, 3, 1, 3, 3, 3, 1, 1, 1, 6, 4, 4, 2, 2, 1, 1, 4, 2, 5)
+
+#MLE function
+poisson.lik <- function(lambda,x){
+  n <- length(x)
+  logl <- sum(x) * log(lambda) - n * lambda - log(prod(factorial(x)))
+  return(logl)
+}
+
+lambda <- seq(0.1,10, by = 0.1)
+mle = NULL
+for (l in lambda) {
+  m = poisson.lik(l, num_particals)
+  mle <- c(mle, m)
+}
+
+plot(x = lambda, y = mle, type = 'p',
+     xlab = "lambda",
+     ylab = "Likelihood value",
+     col = "darkgreen")
+
+#Value of λ that maximized the likelihood
+i = match(max(mle), mle) #maximum likelihood value
+print(lambda[i]) #lambda that maximizes the likelihood value
